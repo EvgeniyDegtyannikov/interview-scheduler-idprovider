@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class AddUser {
+public class UserController {
     @Autowired
     private UserService userService;
 
     @RequestMapping(value="/do")
     @ResponseBody
-    public int doStuffMethod() {
+    public int doCreate() {
         return userService.createUser("q","q");
     }
 
