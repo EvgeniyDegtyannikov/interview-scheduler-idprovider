@@ -1,31 +1,28 @@
 package com.netcracker.interviewscheduleridprovider.controllers;
 
 import com.netcracker.interviewscheduleridprovider.services.UserService;
+import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+@RequestMapping("/api/employees")
 public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value="/do")
-    @ResponseBody
-    public int doCreate() {
-        return userService.createUser("q","q");
+    @PostMapping(value = "")
+    public void createUser(@RequestBody UserRepresentation userRepresentation) {
+        userService.createUser(userRepresentation);
     }
 
-    @RequestMapping(value="/doDelete")
-    @ResponseBody
-    public int doDelete() {
-        return userService.deleteUser("a89625f0-0ff3-4ca4-a021-4e1ee68dc6be");
+    @DeleteMapping(value = "/{id}")
+    public void deleteUser(@PathVariable String id) {
+        userService.deleteUser(id);
     }
 
-    @RequestMapping(value="/doEdit")
-    @ResponseBody
-    public void doEdit() {
-        userService.editUser("1da3b0bb-2c0e-4b25-aeeb-b33fba2e87a0");
+    @PutMapping(value = "/{id}")
+    public void editUser(@PathVariable String id, @RequestBody UserRepresentation userRepresentation) {
+        userService.editUser(id, userRepresentation);
     }
 }

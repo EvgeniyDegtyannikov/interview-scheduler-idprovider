@@ -1,7 +1,11 @@
 package com.netcracker.interviewscheduleridprovider.services;
 
+import org.keycloak.representations.idm.UserRepresentation;
+
 public interface UserService {
-    int createUser(String username, String password);
-    int deleteUser(String id);
-    void editUser(String id);
+    void createUser(UserRepresentation userRepresentation);
+
+    void deleteUser(String id);
+
+    void editUser(String id, UserRepresentation userRepresentation);
 }
