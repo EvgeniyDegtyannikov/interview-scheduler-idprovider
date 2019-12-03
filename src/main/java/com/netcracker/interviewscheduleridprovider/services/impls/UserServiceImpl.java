@@ -6,6 +6,8 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -36,5 +38,22 @@ public class UserServiceImpl implements UserService {
                 .users()
                 .get(id)
                 .update(userRepresentation);
+    }
+
+    @Override
+    public List<UserRepresentation> loadUsers() {
+        return keycloakService.getInstance()
+                .realm(keycloakService.getREALM())
+                .users()
+                .list();
+    }
+
+    @Override
+    public UserRepresentation loadUser(String id) {
+        return keycloakService.getInstance()
+                .realm(keycloakService.getREALM())
+                .users()
+                .get(id)
+                .toRepresentation();
     }
 }

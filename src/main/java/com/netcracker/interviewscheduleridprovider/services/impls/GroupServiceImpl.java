@@ -6,6 +6,8 @@ import org.keycloak.representations.idm.GroupRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class GroupServiceImpl implements GroupService {
     @Autowired
@@ -20,26 +22,37 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public void editGroup(String name, GroupRepresentation groupRepresentation) {
+    public void editGroup(String id, GroupRepresentation groupRepresentation) {
         keycloakService.getInstance()
                 .realm(keycloakService.getREALM())
                 .groups()
-                .group(getGroupIdByName(name))
+                .group(id)
                 .update(groupRepresentation);
     }
 
     @Override
-    public void deleteGroup(String name) {
+    public void deleteGroup(String id) {
         keycloakService.getInstance()
                 .realm(keycloakService.getREALM())
                 .groups()
-                .group(getGroupIdByName(name))
+                .group(id)
                 .remove();
     }
 
-    private String getGroupIdByName(String name) {
+    @Override
+    public List<GroupRepresentation> loadGroups() {
         return keycloakService.getInstance()
                 .realm(keycloakService.getREALM())
-                .getGroupByPath("/" + name).getId();
+                .groups()
+                .groups();
+    }
+
+    @Override
+    public GroupRepresentation loadGroup(String id) {
+        return keycloakService.getInstance()
+                .realm(keycloakService.getREALM())
+                .groups()
+                .group(id)
+                .toRepresentation();
     }
 }

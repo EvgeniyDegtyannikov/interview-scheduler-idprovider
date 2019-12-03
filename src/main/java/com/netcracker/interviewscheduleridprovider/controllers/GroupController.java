@@ -5,6 +5,9 @@ import org.keycloak.representations.idm.GroupRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@CrossOrigin(origins = {"http://localhost:8080"})
 @RestController
 @RequestMapping("/api/groups")
 public class GroupController {
@@ -16,13 +19,23 @@ public class GroupController {
         groupService.createGroup(groupRepresentation);
     }
 
-    @DeleteMapping(value = "/{name}")
-    public void deleteGroup(@PathVariable String name) {
-        groupService.deleteGroup(name);
+    @DeleteMapping(value = "/{id}")
+    public void deleteGroup(@PathVariable String id) {
+        groupService.deleteGroup(id);
     }
 
-    @PutMapping(value = "/{name}")
-    public void editGroup(@PathVariable String name, @RequestBody GroupRepresentation groupRepresentation) {
-        groupService.editGroup(name, groupRepresentation);
+    @PutMapping(value = "/{id}")
+    public void editGroup(@PathVariable String id, @RequestBody GroupRepresentation groupRepresentation) {
+        groupService.editGroup(id, groupRepresentation);
+    }
+
+    @GetMapping(value = "")
+    public List<GroupRepresentation> loadGroups() {
+        return groupService.loadGroups();
+    }
+
+    @GetMapping(value = "/{id}")
+    public GroupRepresentation loadGroup(@PathVariable String id) {
+        return groupService.loadGroup(id);
     }
 }

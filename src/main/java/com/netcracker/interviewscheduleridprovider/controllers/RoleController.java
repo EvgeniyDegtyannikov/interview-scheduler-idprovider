@@ -5,6 +5,9 @@ import org.keycloak.representations.idm.RoleRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@CrossOrigin(origins = {"http://localhost:8080"})
 @RestController
 @RequestMapping("/api/roles")
 public class RoleController {
@@ -16,13 +19,23 @@ public class RoleController {
         roleService.createRole(roleRepresentation);
     }
 
-    @DeleteMapping(value = "/{name}")
-    public void deleteRole(@PathVariable String name) {
-        roleService.deleteRole(name);
+    @DeleteMapping(value = "/{id}")
+    public void deleteRole(@PathVariable String id) {
+        roleService.deleteRole(id);
     }
 
-    @PutMapping(value = "/{name}")
-    public void editRole(@PathVariable String name, @RequestBody RoleRepresentation roleRepresentation) {
-        roleService.editRole(name, roleRepresentation);
+    @PutMapping(value = "/{id}")
+    public void editRole(@PathVariable String id, @RequestBody RoleRepresentation roleRepresentation) {
+        roleService.editRole(id, roleRepresentation);
+    }
+
+    @GetMapping(value = "")
+    public List<RoleRepresentation> loadRoles() {
+        return roleService.loadRoles();
+    }
+
+    @GetMapping(value = "/{id}")
+    public RoleRepresentation loadRole(@PathVariable String id) {
+        return roleService.loadRole(id);
     }
 }
