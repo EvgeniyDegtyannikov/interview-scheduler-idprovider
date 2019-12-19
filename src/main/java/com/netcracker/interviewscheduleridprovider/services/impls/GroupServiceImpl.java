@@ -1,56 +1,64 @@
 package com.netcracker.interviewscheduleridprovider.services.impls;
 
 import com.netcracker.interviewscheduleridprovider.services.GroupService;
-import com.netcracker.interviewscheduleridprovider.services.KeycloakService;
+import com.netcracker.interviewscheduleridprovider.services.KeycloakInstance;
 import org.keycloak.representations.idm.GroupRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Service
 public class GroupServiceImpl implements GroupService {
     @Autowired
-    KeycloakService keycloakService;
+    KeycloakInstance keycloakInstance;
 
     @Override
-    public void createGroup(GroupRepresentation groupRepresentation) {
-        keycloakService.getInstance()
-                .realm(keycloakService.getREALM())
+    public HttpStatus createGroup(GroupRepresentation groupRepresentation) {
+        Response response = keycloakInstance.getInstance()
+                .realm(keycloakInstance.getREALM())
                 .groups()
                 .add(groupRepresentation);
+        System.out.println("Group create status info:    " +
+                response.getStatusInfo() + "  " +
+                groupRepresentation.getName());
+        return HttpStatus.valueOf(response.getStatusInfo().getStatusCode());
     }
 
     @Override
     public void editGroup(String id, GroupRepresentation groupRepresentation) {
-        keycloakService.getInstance()
-                .realm(keycloakService.getREALM())
+        keycloakInstance.getInstance()
+                .realm(keycloakInstance.getREALM())
                 .groups()
                 .group(id)
                 .update(groupRepresentation);
+        System.out.println("Group update status info:    " + id);
     }
 
     @Override
     public void deleteGroup(String id) {
-        keycloakService.getInstance()
-                .realm(keycloakService.getREALM())
+        keycloakInstance.getInstance()
+                .realm(keycloakInstance.getREALM())
                 .groups()
                 .group(id)
                 .remove();
+        System.out.println("Group delete status info:    " + id);
     }
 
     @Override
     public List<GroupRepresentation> loadGroups() {
-        return keycloakService.getInstance()
-                .realm(keycloakService.getREALM())
+        return keycloakInstance.getInstance()
+                .realm(keycloakInstance.getREALM())
                 .groups()
                 .groups();
     }
 
     @Override
     public GroupRepresentation loadGroup(String id) {
-        return keycloakService.getInstance()
-                .realm(keycloakService.getREALM())
+        return keycloakInstance.getInstance()
+                .realm(keycloakInstance.getREALM())
                 .groups()
                 .group(id)
                 .toRepresentation();

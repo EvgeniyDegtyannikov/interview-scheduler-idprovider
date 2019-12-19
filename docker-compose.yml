@@ -1,7 +1,6 @@
 version: "3.5"
 
 services:
-
   keycloak:
     image: jboss/keycloak:7.0.1
     container_name: keycloak
@@ -10,6 +9,7 @@ services:
       KEYCLOAK_PASSWORD: admin
     ports:
       - "8080:8080"
+    restart: always
 
   idprovider-app:
     container_name: idprovider-app
@@ -19,6 +19,13 @@ services:
     environment:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin
+    volumes:
+      - ./keycloak-data-volume:/opt/jboss/keycloak/standalone/data
+    command: -Dkeycloak.migration.strategy=IGNORE_EXISTING
     ports:
       - "8080:8080"   
       - "8443:8443"
+volumes:
+  keycloak-data-volume:
+    external: true
+  

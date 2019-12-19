@@ -1,4 +1,5 @@
 FROM jboss/keycloak:7.0.1
+#VOLUME /keycloak/standalone/data
 EXPOSE 8080
 EXPOSE 8443
 #COPY target/product-app-0.0.1-SNAPSHOT.jar /product-app/

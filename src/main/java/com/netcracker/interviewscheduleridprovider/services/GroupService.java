@@ -1,11 +1,12 @@
 package com.netcracker.interviewscheduleridprovider.services;
 
 import org.keycloak.representations.idm.GroupRepresentation;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
 public interface GroupService {
-    void createGroup(GroupRepresentation groupRepresentation);
+    HttpStatus createGroup(GroupRepresentation groupRepresentation);
 
     void editGroup(String id, GroupRepresentation groupRepresentation);
 

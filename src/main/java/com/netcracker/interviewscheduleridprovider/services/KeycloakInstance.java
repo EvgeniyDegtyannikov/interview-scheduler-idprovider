@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 @Component
 @PropertySource("classpath:application.properties")
-public class KeycloakService {
+public class KeycloakInstance {
     @Value("${keycloak.auth-server-url}")
     private String SERVER_URL;
     @Value("${keycloak.realm}")
@@ -20,8 +22,19 @@ public class KeycloakService {
     @Value("${keycloak.resource}")
     private String CLIENT_ID;
 
+    private Keycloak keycloakInstance;
+
     public Keycloak getInstance() {
-        return KeycloakBuilder
+        return keycloakInstance;
+    }
+
+    public String getREALM() {
+        return REALM;
+    }
+
+    @PostConstruct
+    public void init() {
+        keycloakInstance = KeycloakBuilder
                 .builder()
                 .serverUrl(SERVER_URL)
                 .realm(REALM)
@@ -29,9 +42,5 @@ public class KeycloakService {
                 .password(PASSWORD)
                 .clientId(CLIENT_ID)
                 .build();
-    }
-
-    public String getREALM() {
-        return REALM;
     }
 }

@@ -3,11 +3,11 @@ package com.netcracker.interviewscheduleridprovider.controllers;
 import com.netcracker.interviewscheduleridprovider.services.GroupService;
 import org.keycloak.representations.idm.GroupRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:8080"})
 @RestController
 @RequestMapping("/api/groups")
 public class GroupController {
@@ -15,8 +15,8 @@ public class GroupController {
     private GroupService groupService;
 
     @PostMapping(value = "")
-    public void createGroup(@RequestBody GroupRepresentation groupRepresentation) {
-        groupService.createGroup(groupRepresentation);
+    public HttpStatus createGroup(@RequestBody GroupRepresentation groupRepresentation) {
+        return groupService.createGroup(groupRepresentation);
     }
 
     @DeleteMapping(value = "/{id}")

@@ -1,13 +1,14 @@
 package com.netcracker.interviewscheduleridprovider.services;
 
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
 public interface UserService {
-    void createUser(UserRepresentation userRepresentation);
+    HttpStatus createUser(UserRepresentation userRepresentation);
 
-    void deleteUser(String id);
+    HttpStatus deleteUser(String id);
 
     void editUser(String id, UserRepresentation userRepresentation);
 
